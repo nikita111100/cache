@@ -25,9 +25,8 @@ public class RealizationCache implements Cache {
     }
     @Override
     public Object get(Object key) {
-        boolean res = list.remove(key);
+        boolean res = list.contains(key);
         if (res) {
-            list.addLast(key);
             return map.get(key);
         }
         return null;
