@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 .idea
 *
@@ -8,3 +9,12 @@
 .ipr
 /
 cache.iml
+=======
+HELP.md
+.idea/
+*.iws
+*.iml
+*.ipr
+idea
+cache.iml
+>>>>>>> 673d0b324a7b66fcde09e62c5c4c15c67e1f8942
