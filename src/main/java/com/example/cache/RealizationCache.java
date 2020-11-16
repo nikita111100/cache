@@ -1,22 +1,26 @@
 package com.example.cache;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 public class RealizationCache implements Cache {
     int cacheSize;
-    HashMap map;
+    LinkedHashMap map;
     LinkedList list;
 
     public RealizationCache(int cacheSize) {
         this.cacheSize = cacheSize;
-        map = new HashMap(cacheSize);
+        map = new LinkedHashMap(cacheSize);
         list = new LinkedList();
     }
     @Override
     public void put(Object key, Object val) {
-
+        if (list.remove(key)){
+            list.addLast(key);
+            map.put(key,val);
+            return;
+        }
         if (list.size() == this.cacheSize) {
             this.pruning();
         }
@@ -25,8 +29,7 @@ public class RealizationCache implements Cache {
     }
     @Override
     public Object get(Object key) {
-        boolean res = list.contains(key);
-        if (res) {
+        if (list.contains(key)) {
             return map.get(key);
         }
         return null;
@@ -40,7 +43,7 @@ public class RealizationCache implements Cache {
 
     @Override
     public void clear() {
-        map = new HashMap(cacheSize);
+        map = new LinkedHashMap(cacheSize);
         list = new LinkedList();
     }
 
@@ -56,7 +59,7 @@ public class RealizationCache implements Cache {
     public void fromDiskToCache() throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream("Z:/Example.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
-        HashMap anotherMap = (HashMap) ois.readObject();
+        LinkedHashMap anotherMap = (LinkedHashMap) ois.readObject();
         ois.close();
         map = anotherMap;
     }
