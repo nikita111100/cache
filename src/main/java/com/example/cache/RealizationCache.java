@@ -16,6 +16,12 @@ public class RealizationCache implements Cache {
     }
     @Override
     public void put(Object key, Object val) {
+        boolean res = list.remove(key);
+        if (res){
+            list.addLast(key);
+            map.put(key,val);
+            return;
+        }
 
         if (list.size() == this.cacheSize) {
             this.pruning();
@@ -25,8 +31,7 @@ public class RealizationCache implements Cache {
     }
     @Override
     public Object get(Object key) {
-        boolean res = list.contains(key);
-        if (res) {
+        if (list.contains(key)) {
             return map.get(key);
         }
         return null;
