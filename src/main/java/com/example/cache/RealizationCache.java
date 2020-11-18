@@ -18,20 +18,21 @@ public class RealizationCache implements Cache {
     public void put(Object key, Object val) {
         boolean res = list.remove(key);
         if (res){
-            list.addLast(key);
+            list.addFirst(key);
             map.put(key,val);
             return;
         }
-
         if (list.size() == this.cacheSize) {
             this.pruning();
         }
-        list.addLast(key);
+        list.addFirst(key);
         map.put(key, val);
     }
     @Override
     public Object get(Object key) {
-        if (list.contains(key)) {
+        Boolean res = list.remove(key);
+        if (res) {
+            list.addFirst(key);
             return map.get(key);
         }
         return null;
@@ -51,7 +52,8 @@ public class RealizationCache implements Cache {
 
     @Override
     public void сacheOnDisk () throws IOException {
-        FileOutputStream fos = new FileOutputStream("Z:/Example.txt");
+        String file = "Z:/Example.txt";
+        FileOutputStream fos = new FileOutputStream(file);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(map);
         oos.close();
@@ -67,7 +69,7 @@ public class RealizationCache implements Cache {
     }
     public void pruning()
     {
-        Object key = list.removeFirst();
+        Object key = list.removeLast();
         map.remove(key);
     }
 }
