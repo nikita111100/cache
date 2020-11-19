@@ -6,7 +6,7 @@ import java.io.IOException;
 public class CacheApplication {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
-		RealizationCache myCache = new RealizationCache(4);
+		RealizationCache myCache = new RealizationCache(4,"Z:/Example.txt");
 		myCache.put(1,"Никита");
 		myCache.put(2,"Алеша");
 		myCache.put(3,"Евгений");

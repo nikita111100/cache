@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class RealizationCache implements Cache {
+    String fileName;
     int cacheSize;
     HashMap map;
     LinkedList list;
 
-    public RealizationCache(int cacheSize) {
+    public RealizationCache(int cacheSize,String fileName) {
         this.cacheSize = cacheSize;
+        this.fileName = fileName;
         map = new HashMap(cacheSize);
         list = new LinkedList();
     }
@@ -52,8 +54,7 @@ public class RealizationCache implements Cache {
 
     @Override
     public void сacheOnDisk () throws IOException {
-        String file = "Z:/Example.txt";
-        FileOutputStream fos = new FileOutputStream(file);
+        FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(map);
         oos.close();
@@ -61,7 +62,7 @@ public class RealizationCache implements Cache {
 
     @Override
     public void fromDiskToCache() throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream("Z:/Example.txt");
+        FileInputStream fis = new FileInputStream(fileName);
         ObjectInputStream ois = new ObjectInputStream(fis);
         HashMap anotherMap = (HashMap) ois.readObject();
         ois.close();
